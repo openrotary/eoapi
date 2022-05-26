@@ -6,6 +6,10 @@
   "homepage": "https://github.com/eolinker/eoapi.git",
   "author": "eoapi",
   "private": true,
+  "workspaces": [
+    "src/workbench/browser",
+    "src/app/electron-browser/IndexedDB"
+  ],
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
     "start": "npm-run-all -p start:workbench electron:serve",
