@@ -5,7 +5,7 @@ name: Build electron App for Win
 
 on:
   push:
-    branch: ['feat/publish-win']
+    branches: ['main']
 
 # Workflow's jobs
 jobs:
