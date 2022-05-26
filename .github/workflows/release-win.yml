@@ -14,14 +14,8 @@ jobs:
     # job's name
     name: build and release electron app
     # the type of machine to run the job on
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
 
-    # create a build matrix for jobs
-    strategy:
-      matrix:
-        os: windows-latest
-
-    # create steps
     steps:
       # step1: check out repository
       - uses: actions/checkout@v2
