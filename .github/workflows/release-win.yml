@@ -32,3 +32,5 @@ jobs:
       # step2: install & build app for win
       - run: yarn install --frozen-lockfile
       - run: yarn release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
