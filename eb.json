@@ -11,7 +11,6 @@
     "**/*/browser/dist/**/*",
     "**/*/node/dist/**/*",
     "src/workbench/node/",
-    "src/core/**/package.json",
     "src/app/common/**/*",
     "!**/*.ts"
   ],

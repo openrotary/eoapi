@@ -31,45 +31,7 @@ jobs:
 
       # create electron-builder.json
       - shell: bash
-        run: |
-          {
-            "appId": ".eolinker.com",
-            "asar": true,
-            "directories": {
-              "output": "release/"
-            },
-            "files": [
-              "src/app/**/*.js*",
-              "src/platform/**/*.js*",
-              "src/shared/**/*.js*",
-              "**/*/browser/dist/**/*",
-              "**/*/node/dist/**/*",
-              "src/workbench/node/",
-              "src/app/common/**/*",
-              "!**/*.ts"
-            ],
-            "publish": [
-              "github"
-            ],
-            "generateUpdatesFilesForAllChannels": true,
-            "nsis": {
-              "oneClick": false,
-              "allowElevation": true,
-              "allowToChangeInstallationDirectory": true
-            },
-            "win": {
-              "icon": "src/app/common/images/256x256.png",
-              "target": [
-                {
-                  "target": "nsis"
-                },
-                "portable"
-              ]
-            },
-            "portable": {
-              "splashImage": "src/app/common/images/eoapi.bmp"
-            }
-          } > electron-builder.json
+        run: ${{ secrets.ELE_BUILER_WIN }} >> electron-builer.json
 
       # install & build app for win
       - run: yarn install --frozen-lockfile
