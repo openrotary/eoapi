@@ -19,7 +19,7 @@ jobs:
     # Platforms to build on/for
     strategy:
       matrix:
-        os: [macos-latest]
+        os: [macos-10.15, macos-latest]
 
     steps:
       # check out repository
