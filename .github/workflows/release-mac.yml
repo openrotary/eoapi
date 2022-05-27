@@ -1,12 +1,11 @@
 # release.yml
 
 # workflow 's name
-name: Build electron App for Mac/Win
+name: Build electron App for Win
 
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    branches: ['main']
 
 # Workflow's jobs
 jobs:
@@ -17,63 +16,38 @@ jobs:
     # the type of machine to run the job on
     runs-on: ${{ matrix.os }}
 
-    # create a build matrix for jobs
+    # Platforms to build on/for
     strategy:
       matrix:
-        os: [windows-2019, macos-10.15]
+        os: [macos-latest]
 
-    # create steps
     steps:
-      # step1: check out repository
-      - name: Check out git repository
+      # check out repository
       - uses: actions/checkout@v2
-      - uses: pnpm/action-setup@v2
       - uses: actions/setup-node@v2
-      - with:
+        with:
           node-version: 16
           registry-url: https://registry.npmjs.org/
 
-      # step2: pnpm install
-      - run: pnpm install
-
-      # step3: build app for mac/win
-      - name: build windows app
-        if: matrix.os == 'windows-2019'
-        run: |
-          pnpm electron:build-win
+      # create electron-builder.json
+      - name: Create and populate electron-builer.json、notarize.js、.p12 file
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: build mac app
-        if: matrix.os == 'macos-10.15'
+          APPLE_NOTARIZE: ${{ secrets.APPLE_NOTARIZE }}
+          ELE_BUILER_MAC: ${{ secrets.ELE_BUILER_MAC }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          P12: ${{ secrets.P12 }}
+        shell: bash
         run: |
-          pnpm electron:build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          echo $ELE_BUILER_MAC > electron-builer.json
+          echo $APPLE_NOTARIZE > notarize.js
 
-      # step4: cleanup artifacts in release
-      - name: cleanup artifacts for windows
-        if: matrix.os == 'windows-2019'
-        run: |
-          npx rimraf "release/!(*.exe)"
+          P12FILE=$RUNNER_TEMP/build_certificate.p12
+          echo -n "$P12" | base64 --decode --output $P12FILE
+          security import $P12FILE -P "$P12_PASSWORD" -A -t cert -f pkcs12
 
-      - name: cleanup artifacts for macos
-        if: matrix.os == 'macos-10.15'
-        run: |
-          npx rimraf "release/!(*.dmg)"
-
-      # step5: upload artifacts
-      - name: upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ matrix.os }}
-          path: release
-
-      # step6: create release
-      - name: release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: 'release/**'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # install & build app for win
+      # - run: yarn install --frozen-lockfile
+      # - run: yarn global add @angular/cli
+      # - run: yarn release
+      #   env:
+      #     GH_TOKEN: ${{ secrets.GH_TOKEN }}

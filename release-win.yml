@@ -36,7 +36,6 @@ jobs:
         shell: bash
         run: |
           echo $ELE_BUILER_WIN > electron-builer.json
-          cat electron-builer.json
 
       # install & build app for win
       - run: yarn install --frozen-lockfile
