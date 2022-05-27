@@ -15,6 +15,7 @@
     "!**/*.ts"
   ],
   "afterSign": "notarize.js",
+  "artifactName": "eoapi-v${version}-${os}-${arch}.${ext}",
   "publish": [
     "github"
   ],
