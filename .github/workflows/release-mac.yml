@@ -1,7 +1,7 @@
 # release.yml
 
 # workflow 's name
-name: Build electron App for Win
+name: Build electron App for Mac
 
 on:
   push:
@@ -36,6 +36,7 @@ jobs:
           ELE_BUILER_MAC: ${{ secrets.ELE_BUILER_MAC }}
           P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
           P12: ${{ secrets.P12 }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
         shell: bash
         run: |
           echo $ELE_BUILER_MAC > electron-builer.json
@@ -43,9 +44,15 @@ jobs:
 
           P12FILE=$RUNNER_TEMP/build_certificate.p12
           echo -n "$P12" | base64 --decode --output $P12FILE
-          security import $P12FILE -P "$P12_PASSWORD" -A -t cert -f pkcs12
 
-      # install & build app for win
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          security import $P12FILE -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+
+      # install & build app for mac
       - run: yarn install --frozen-lockfile
       - run: yarn global add @angular/cli
       - run: yarn release
