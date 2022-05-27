@@ -29,10 +29,6 @@ jobs:
           node-version: 16
           registry-url: https://registry.npmjs.org/
 
-      # create electron-builder.json
-      - run: ${{ secrets.ELE_BUILER_WIN }} >> electron-builer.json
-        shell: bash
-
       # install & build app for win
       - run: yarn install --frozen-lockfile
       - run: yarn global add @angular/cli
