@@ -30,13 +30,13 @@ jobs:
           registry-url: https://registry.npmjs.org/
 
       # create electron-builder.json
-      - name: Create and populate .Renviron file
+      - name: Create and populate electron-builer.json file
         env:
           ELE_BUILER_WIN: ${{ secrets.ELE_BUILER_WIN }}
+        shell: bash
         run: |
           echo $ELE_BUILER_WIN > electron-builer.json
-          echo "cat electron-builer.json"
-        shell: bash
+          cat electron-builer.json
 
       # install & build app for win
       - run: yarn install --frozen-lockfile
