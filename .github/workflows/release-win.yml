@@ -22,12 +22,56 @@ jobs:
         os: [windows-latest]
 
     steps:
+      # check out repository
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: 16
           registry-url: https://registry.npmjs.org/
 
+      # create electron-builder.json
+      - shell: bash
+        run: |
+          {
+            "appId": ".eolinker.com",
+            "asar": true,
+            "directories": {
+              "output": "release/"
+            },
+            "files": [
+              "src/app/**/*.js*",
+              "src/platform/**/*.js*",
+              "src/shared/**/*.js*",
+              "**/*/browser/dist/**/*",
+              "**/*/node/dist/**/*",
+              "src/workbench/node/",
+              "src/app/common/**/*",
+              "!**/*.ts"
+            ],
+            "publish": [
+              "github"
+            ],
+            "generateUpdatesFilesForAllChannels": true,
+            "nsis": {
+              "oneClick": false,
+              "allowElevation": true,
+              "allowToChangeInstallationDirectory": true
+            },
+            "win": {
+              "icon": "src/app/common/images/256x256.png",
+              "target": [
+                {
+                  "target": "nsis"
+                },
+                "portable"
+              ]
+            },
+            "portable": {
+              "splashImage": "src/app/common/images/eoapi.bmp"
+            }
+          } > electron-builder.json
+
+      # install & build app for win
       - run: yarn install --frozen-lockfile
       - run: yarn global add @angular/cli
       - run: yarn release
