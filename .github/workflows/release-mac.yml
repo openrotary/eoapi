@@ -43,6 +43,7 @@ jobs:
           echo $APPLE_NOTARIZE > notarize.js
 
           P12FILE=$RUNNER_TEMP/build_certificate.p12
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
           echo -n "$P12" | base64 --decode --output $P12FILE
 
           security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
