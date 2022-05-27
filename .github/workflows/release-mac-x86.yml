@@ -19,7 +19,7 @@ jobs:
     # Platforms to build on/for
     strategy:
       matrix:
-        os: [macos-10.15, macos-latest]
+        os: [macos-latest]
 
     steps:
       # check out repository
@@ -33,7 +33,7 @@ jobs:
       - name: Create and populate electron-builer.json、notarize.js、.p12 file
         env:
           APPLE_NOTARIZE: ${{ secrets.APPLE_NOTARIZE }}
-          ELE_BUILER_MAC: ${{ secrets.ELE_BUILER_MAC }}
+          ELE_BUILER_MAC: ${{ secrets.ELE_BUILER_MAC_X86 }}
           P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
           P12: ${{ secrets.P12 }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}

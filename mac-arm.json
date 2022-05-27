@@ -1,0 +1,43 @@
+{
+  "appId": ".eolinker.com",
+  "asar": true,
+  "directories": {
+    "output": "release/"
+  },
+  "files": [
+    "src/app/**/*.js*",
+    "src/platform/**/*.js*",
+    "src/shared/**/*.js*",
+    "**/*/browser/dist/**/*",
+    "**/*/node/dist/**/*",
+    "src/workbench/node/",
+    "src/app/common/**/*",
+    "!**/*.ts"
+  ],
+  "afterSign": "notarize.js",
+  "publish": [
+    "github"
+  ],
+  "generateUpdatesFilesForAllChannels": true,
+  "portable": {
+    "splashImage": "src/app/common/images/eoapi.bmp"
+  },
+  "mac": {
+    "icon": "src/app/common/images/512x512.png",
+    "hardenedRuntime": true,
+    "gatekeeperAssess": false,
+    "target": [
+      {
+        "target": "dmg",
+        "arch": "arm64"
+      },
+      {
+        "target": "zip",
+        "arch": "arm64"
+      }
+    ]
+  },
+  "dmg": {
+    "sign": false
+  }
+}
