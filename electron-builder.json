@@ -35,23 +35,5 @@
   },
   "portable": {
     "splashImage": "src/app/common/images/eoapi.bmp"
-  },
-  "mac": {
-    "icon": "src/app/common/images/512x512.png",
-    "hardenedRuntime": true,
-    "gatekeeperAssess": false,
-    "target": [
-      "dmg",
-      "zip"
-    ]
-  },
-  "dmg": {
-    "sign": false
-  },
-  "linux": {
-    "icon": "src/app/common/images/",
-    "target": [
-      "AppImage"
-    ]
   }
 }

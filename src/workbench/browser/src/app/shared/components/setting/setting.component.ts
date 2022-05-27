@@ -53,7 +53,6 @@ export class SettingComponent implements OnInit {
   );
 
   dataSource = new NzTreeFlatDataSource(this.treeControl, this.treeFlattener);
-
   /** 当前配置项 */
   currentConfiguration = [];
   isVisible = false;
