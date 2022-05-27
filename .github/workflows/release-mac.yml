@@ -46,8 +46,8 @@ jobs:
           security import $P12FILE -P "$P12_PASSWORD" -A -t cert -f pkcs12
 
       # install & build app for win
-      # - run: yarn install --frozen-lockfile
-      # - run: yarn global add @angular/cli
-      # - run: yarn release
-      #   env:
-      #     GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      - run: yarn install --frozen-lockfile
+      - run: yarn global add @angular/cli
+      - run: yarn release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
